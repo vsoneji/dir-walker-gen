@@ -1,0 +1,34 @@
+{
+    "name": "dir-walker-gen",
+    "version": "0.1.0",
+    "description": "A javascript generator pattern for directlry listing",
+    "main": "src/dirgen.js",
+    "directories": {
+        "test": "test",
+        "lib": "src"
+    },
+    "scripts": {
+        "test": "mocha test/**/*.test.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vsoneji/dir-walker-gen.git"
+    },
+    "keywords": [
+        "utils",
+        "fs",
+        "filesystem",
+        "directory",
+        "generator"
+    ],
+    "author": "Vipul Soneji",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/vsoneji/dir-walker-gen/issues"
+    },
+    "homepage": "https://github.com/vsoneji/dir-walker-gen#readme",
+    "devDependencies": {
+        "mocha": "^5.2.0",
+        "should": "^13.2.3"
+    }
+}
