@@ -2,13 +2,15 @@
     "name": "dir-walker-gen",
     "version": "0.1.0",
     "description": "A javascript generator pattern for directlry listing",
-    "main": "src/dirgen.js",
+    "main": "src/dir-walker-gen.js",
     "directories": {
         "test": "test",
         "lib": "src"
     },
     "scripts": {
-        "test": "mocha test/**/*.test.js"
+        "test": "mocha test/**/*.test.js",
+        "publish": "npm publish --access=public",
+        "unpublish": "npm -f unpublish"
     },
     "repository": {
         "type": "git",

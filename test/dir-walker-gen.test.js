@@ -1,4 +1,4 @@
-const DirGen = require("../src/dirgen");
+const DirGen = require("../src/dir-walker-gen");
 const should = require("should");
 const path = require("path");
 
