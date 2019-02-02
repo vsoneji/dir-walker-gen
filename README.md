@@ -1,4 +1,4 @@
-# dir-walker-gen
+# dir-walker-gen [![Build Status](https://api.travis-ci.com/vsoneji/dir-walker-gen.svg?branch=master)](http://travis-ci.org/daaku/nodejs-walker)
 
 JavaScript generator pattern for efficient directory listing.
 
