@@ -15,7 +15,11 @@ describe("Simple Folder List", () => {
             path.join(simpleFolder, "File3.jpg")
         ];
 
-        for (let file of DirGen(simpleFolder)) {
+        const options = {
+            folders: [simpleFolder]
+        };
+
+        for (let file of DirGen(options)) {
             files.push(file);
         }
         files.should.deepEqual(expected);
@@ -30,10 +34,11 @@ describe("Simple Folder List", () => {
         ];
 
         const options = {
+            folders: [simpleFolder],
             excludeExtensions: ["jpg", "jpeg"]
         };
 
-        for (let file of DirGen(simpleFolder, options)) {
+        for (let file of DirGen(options)) {
             files.push(file);
         }
         files.should.deepEqual(expected);
@@ -48,10 +53,11 @@ describe("Simple Folder List", () => {
         ];
 
         const options = {
+            folders: [simpleFolder],
             includeExtensions: ["txt", "text"]
         };
 
-        for (let file of DirGen(simpleFolder, options)) {
+        for (let file of DirGen(options)) {
             files.push(file);
         }
         files.should.deepEqual(expected);
@@ -74,7 +80,11 @@ describe("Multi-Level Folder Tree", () => {
             path.join(multiLevelFolder, "Folder2", "File4.md")
         ];
 
-        for (let file of DirGen(multiLevelFolder)) {
+        const options = {
+            folders: [multiLevelFolder]
+        };
+
+        for (let file of DirGen(options)) {
             files.push(file);
         }
         files.should.deepEqual(expected);
@@ -90,10 +100,65 @@ describe("Multi-Level Folder Tree", () => {
         ];
 
         const options = {
+            folders: [multiLevelFolder],
             excludeFolders: ["Folder2", "Folder3"]
         };
 
-        for (let file of DirGen(multiLevelFolder, options)) {
+        for (let file of DirGen(options)) {
+            files.push(file);
+        }
+        files.should.deepEqual(expected);
+    });
+});
+
+describe("Multiple Start Folders", () => {
+    const baseDir = __dirname;
+    const multiLevelFolder = path.join(baseDir, "test_recursive");
+    const simpleFolder = path.join(baseDir, "test_simple");
+
+    it("will list contents of a folder and sub-folders", () => {
+        const files = [];
+
+        const expected = [
+            path.join(simpleFolder, "File1.txt"),
+            path.join(simpleFolder, "File2.txt"),
+            path.join(simpleFolder, "File3.jpg"),
+            path.join(multiLevelFolder, "Folder1", "File1.txt"),
+            path.join(multiLevelFolder, "Folder1", "File2.txt"),
+            path.join(multiLevelFolder, "Folder1", "File3.jpg"),
+            path.join(multiLevelFolder, "Folder2", "File1.txt"),
+            path.join(multiLevelFolder, "Folder2", "File2.txt"),
+            path.join(multiLevelFolder, "Folder2", "File4.md")
+        ];
+
+        const options = {
+            folders: [simpleFolder, multiLevelFolder]
+        };
+
+        for (let file of DirGen(options)) {
+            files.push(file);
+        }
+        files.should.deepEqual(expected);
+    });
+
+    it("will list contents of a folder and sub-folders with excluded folders", () => {
+        const files = [];
+
+        const expected = [
+            path.join(simpleFolder, "File1.txt"),
+            path.join(simpleFolder, "File2.txt"),
+            path.join(simpleFolder, "File3.jpg"),
+            path.join(multiLevelFolder, "Folder1", "File1.txt"),
+            path.join(multiLevelFolder, "Folder1", "File2.txt"),
+            path.join(multiLevelFolder, "Folder1", "File3.jpg")
+        ];
+
+        const options = {
+            folders: [simpleFolder, multiLevelFolder],
+            excludeFolders: ["Folder2", "Folder3"]
+        };
+
+        for (let file of DirGen(options)) {
             files.push(file);
         }
         files.should.deepEqual(expected);

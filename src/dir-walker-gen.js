@@ -3,9 +3,9 @@ module.exports = DirGen;
 const path = require("path");
 const fs = require("fs");
 
-function* DirGen(startFolder, options) {
+function* DirGen(options) {
     const filesToEmit = [];
-    const dirsToScan = [startFolder];
+    const dirsToScan = [...options.folders.reverse()];
 
     const _isIgnoreDir = function(dir, options) {
         if (!options) {

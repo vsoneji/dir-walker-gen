@@ -16,7 +16,11 @@ $ npm install dir-walker-gen
 ```javascript
 const DirGen = require('dir-walker-gen');
 
-for (let file of DirGen(`D:\DropBox`)) {
+const options = {
+    folders: ["D:\\Dropbox"]
+}
+
+for (let file of DirGen(options)) {
     console.log(file);
 }
 ```
@@ -26,19 +30,21 @@ for (let file of DirGen(`D:\DropBox`)) {
 const DirGen = require('dir-walker-gen');
 
 const options = {
+    folders: ["D:\\Dropbox"],
     ignoreDotDir: true,
     excludeFolders: ['Public'],
     excludeExtensions: ['tmp', 'docx', 'xlsx'],
     includeExtensions: ['jpeg', 'jpg', 'png', 'gif']
 };
 
-for (let file of DirGen(`D:\DropBox`, options)) {
+for (let file of DirGen(options)) {
     console.log(file);
 }
 ```
 
 | Option<sup>*</sup> | Comment | Default |
 | ------ | ------- | ------- |
+| `folders` | (Required) List of starting folders |  |
 | `ignoreDotDir` | Ignores directories that start with a dot (e.g. .git, .vscode, etc) | false |
 | `excludeFolders` | Exclude all folder that ends with any of the given strings | empty list (ignore nothing) |
 | `excludeExtensions` | List of extensions to ignore | empty list (ignore nothing) |

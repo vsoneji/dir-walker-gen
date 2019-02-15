@@ -1,6 +1,6 @@
 {
     "name": "dir-walker-gen",
-    "version": "0.1.1",
+    "version": "1.0.0",
     "description": "A javascript generator pattern for directlry listing",
     "main": "src/dir-walker-gen.js",
     "directories": {
