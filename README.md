@@ -30,7 +30,8 @@ for (let file of DirGen(options)) {
 const DirGen = require('dir-walker-gen');
 
 const options = {
-    folders: ["D:\\Dropbox"],
+    folders: ["D:\\Dropbox", "D:\\OneDrive"],
+    silent: true,
     ignoreDotDir: true,
     excludeFolders: ['Public'],
     excludeExtensions: ['tmp', 'docx', 'xlsx'],
@@ -45,6 +46,7 @@ for (let file of DirGen(options)) {
 | Option<sup>*</sup> | Comment | Default |
 | ------ | ------- | ------- |
 | `folders` | (Required) List of starting folders |  |
+| `silent` | Does not show console warning when directories do not exist | false |
 | `ignoreDotDir` | Ignores directories that start with a dot (e.g. .git, .vscode, etc) | false |
 | `excludeFolders` | Exclude all folder that ends with any of the given strings | empty list (ignore nothing) |
 | `excludeExtensions` | List of extensions to ignore | empty list (ignore nothing) |

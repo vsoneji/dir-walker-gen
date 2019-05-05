@@ -164,3 +164,49 @@ describe("Multiple Start Folders", () => {
         files.should.deepEqual(expected);
     });
 });
+
+describe('Issue #1 - error handling', () => {
+    it('will not throw an error if a folder does not exist', () => {
+        const simpleFolder = path.join(__dirname, "test_simple");
+
+        const files = [];
+
+        const expected = [
+            path.join(simpleFolder, "File1.txt"),
+            path.join(simpleFolder, "File2.txt"),
+
+            path.join(simpleFolder, "File3.jpg")
+        ];
+
+        const options = {
+            folders: [simpleFolder, 'A foldr that does not exist']
+        };
+
+        for (let file of DirGen(options)) {
+            files.push(file);
+        }
+        files.should.deepEqual(expected);
+    });
+    it('will not a console if a folder does not exist in silent mode', () => {
+        const simpleFolder = path.join(__dirname, "test_simple");
+
+        const files = [];
+
+        const expected = [
+            path.join(simpleFolder, "File1.txt"),
+            path.join(simpleFolder, "File2.txt"),
+            
+            path.join(simpleFolder, "File3.jpg")
+        ];
+
+        const options = {
+            folders: [simpleFolder, 'A foldr that does not exist'],
+            silent: true
+        };
+
+        for (let file of DirGen(options)) {
+            files.push(file);
+        }
+        files.should.deepEqual(expected);
+    });
+});

@@ -6,6 +6,7 @@ const fs = require("fs");
 function* DirGen(options) {
     const filesToEmit = [];
     const dirsToScan = [...options.folders.reverse()];
+    const isSilent = options.silent;
 
     const _isIgnoreDir = function(dir, options) {
         if (!options) {
@@ -57,8 +58,17 @@ function* DirGen(options) {
             yield fileToEmit;
         } else {
             const dirToScan = dirsToScan.pop();
-            const entries = fs.readdirSync(dirToScan);
 
+            const entries = [];
+            try {
+                const dirEntries = fs.readdirSync(dirToScan);
+                entries.push(...dirEntries);
+            } catch (error) {
+                if (!isSilent) {
+                    console.warn(`Could not read directory: '${dirToScan}'. Ignoring it.`);
+                }
+            }
+            
             entries.reverse().forEach(entry => {
                 const entryFullPath = path.join(dirToScan, entry);
 
