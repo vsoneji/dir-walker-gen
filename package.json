@@ -30,7 +30,7 @@
     },
     "homepage": "https://github.com/vsoneji/dir-walker-gen#readme",
     "devDependencies": {
-        "mocha": "^10.2.0",
+        "mocha": "^11.0.1",
         "should": "^13.2.3"
     }
 }
