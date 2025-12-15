@@ -20,11 +20,14 @@ The following optimizations were implemented to improve code performance:
       }
   }
   ```
-- **After**: Use `Array.prototype.some()` for automatic early exit
+- **After**: Use `Array.prototype.some()` for automatic early exit with more precise matching
   ```javascript
-  return options.excludeFolders.some(excludeFolder => dir.endsWith(excludeFolder));
+  const basename = path.basename(dir);
+  return options.excludeFolders.some(excludeFolder => 
+      basename === excludeFolder || dir.endsWith(path.sep + excludeFolder)
+  );
   ```
-- **Impact**: Stops iteration immediately when a match is found, reducing unnecessary comparisons
+- **Impact**: Stops iteration immediately when a match is found, reducing unnecessary comparisons. Also prevents false positives (e.g., excluding "node" won't exclude "my_node_folder")
 
 ### 3. **Fixed Cross-Platform Dot Directory Detection**
 - **Before**: Used `includes("\\.")` which is Windows-specific and incorrect
@@ -50,14 +53,21 @@ The following optimizations were implemented to improve code performance:
   // ... complex logic
   return !(skip == false && noSkip == true);
   ```
-- **After**: Simplified direct boolean returns
+- **After**: Simplified direct boolean returns with early exit
   ```javascript
+  // Check exclusions first
+  if (options && options.excludeExtensions && options.excludeExtensions.length > 0) {
+      if (options.excludeExtensions.some(ext => file.endsWith('.' + ext))) {
+          return true;
+      }
+  }
+  // Then check inclusions (whitelist)
   if (options && options.includeExtensions && options.includeExtensions.length > 0) {
       return !options.includeExtensions.some(ext => file.endsWith('.' + ext));
   }
   return false;
   ```
-- **Impact**: More readable, easier to maintain, and slightly faster execution
+- **Impact**: More readable, easier to maintain, preserves original behavior, and slightly faster execution
 
 ### 5. **Removed Unnecessary String Template Literals**
 - **Before**: Used template literals unnecessarily: `` `${dir}` ``, `` `${file}` ``

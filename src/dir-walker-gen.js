@@ -21,21 +21,25 @@ function* DirGen(options) {
             }
         }
         // Use Array.some() for early exit optimization
+        // Check if directory path ends with any of the excluded folder patterns
         if (options.excludeFolders && options.excludeFolders.length > 0) {
-            return options.excludeFolders.some(excludeFolder => dir.endsWith(excludeFolder));
+            const basename = path.basename(dir);
+            return options.excludeFolders.some(excludeFolder => basename === excludeFolder || dir.endsWith(path.sep + excludeFolder));
         }
 
         return false;
     };
 
     const _isIgnoreFile = function(file, options) {
-        // Simplify boolean logic - if includeExtensions is set, only check that
+        // Check if file should be excluded based on excludeExtensions
+        if (options && options.excludeExtensions && options.excludeExtensions.length > 0) {
+            if (options.excludeExtensions.some(ext => file.endsWith('.' + ext))) {
+                return true;
+            }
+        }
+        // Check if file should be included based on includeExtensions (acts as whitelist)
         if (options && options.includeExtensions && options.includeExtensions.length > 0) {
             return !options.includeExtensions.some(ext => file.endsWith('.' + ext));
-        }
-        // Otherwise check excludeExtensions
-        if (options && options.excludeExtensions && options.excludeExtensions.length > 0) {
-            return options.excludeExtensions.some(ext => file.endsWith('.' + ext));
         }
         return false;
     };
