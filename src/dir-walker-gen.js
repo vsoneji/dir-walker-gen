@@ -5,50 +5,39 @@ const fs = require("fs");
 
 function* DirGen(options) {
     const filesToEmit = [];
-    const dirsToScan = [...options.folders.reverse()];
+    // Avoid unnecessary reverse and spread - work with copy in original order
+    const dirsToScan = options.folders.slice().reverse();
     const isSilent = options.silent;
 
     const _isIgnoreDir = function(dir, options) {
         if (!options) {
             return false;
         }
-        if (options.ignoreDotDir == true) {
-            if (`${dir}`.includes("\\.")) {
+        if (options.ignoreDotDir === true) {
+            // Use path.basename for proper cross-platform dot directory detection
+            const basename = path.basename(dir);
+            if (basename.startsWith('.')) {
                 return true;
             }
         }
+        // Use Array.some() for early exit optimization
         if (options.excludeFolders && options.excludeFolders.length > 0) {
-            for (let i = 0; i < options.excludeFolders.length; i++) {
-                if (`${dir}`.endsWith(`${options.excludeFolders[i]}`)) {
-                    return true;
-                }
-            }
+            return options.excludeFolders.some(excludeFolder => dir.endsWith(excludeFolder));
         }
 
         return false;
     };
 
     const _isIgnoreFile = function(file, options) {
-        let skip = false;
-        let noSkip = true;
-        if (options && options.excludeExtensions) {
-            for (let i = 0; i < options.excludeExtensions.length; i++) {
-                if (`${file}`.endsWith(`.${options.excludeExtensions[i]}`)) {
-                    skip = true;
-                    break;
-                }
-            }
+        // Simplify boolean logic - if includeExtensions is set, only check that
+        if (options && options.includeExtensions && options.includeExtensions.length > 0) {
+            return !options.includeExtensions.some(ext => file.endsWith('.' + ext));
         }
-        if (options && options.includeExtensions) {
-            noSkip = false;
-            for (let i = 0; i < options.includeExtensions.length; i++) {
-                if (`${file}`.endsWith(`.${options.includeExtensions[i]}`)) {
-                    noSkip = true;
-                    break;
-                }
-            }
+        // Otherwise check excludeExtensions
+        if (options && options.excludeExtensions && options.excludeExtensions.length > 0) {
+            return options.excludeExtensions.some(ext => file.endsWith('.' + ext));
         }
-        return !(skip == false && noSkip == true);
+        return false;
     };
 
     while (dirsToScan.length > 0 || filesToEmit.length > 0) {
@@ -59,20 +48,29 @@ function* DirGen(options) {
         } else {
             const dirToScan = dirsToScan.pop();
 
-            const entries = [];
+            let entries;
             try {
-                const dirEntries = fs.readdirSync(dirToScan);
-                entries.push(...dirEntries);
+                // Read directly without intermediate array and spread
+                entries = fs.readdirSync(dirToScan);
             } catch (error) {
                 if (!isSilent) {
                     console.warn(`Could not read directory: '${dirToScan}'. Ignoring it.`);
                 }
+                continue;
             }
             
-            entries.reverse().forEach(entry => {
+            // Process in reverse order to maintain original behavior
+            for (let i = entries.length - 1; i >= 0; i--) {
+                const entry = entries[i];
                 const entryFullPath = path.join(dirToScan, entry);
 
-                const stat = fs.lstatSync(entryFullPath);
+                let stat;
+                try {
+                    stat = fs.lstatSync(entryFullPath);
+                } catch (error) {
+                    // Skip entries that can't be stat'd (e.g., broken symlinks)
+                    continue;
+                }
 
                 if (stat.isFile()) {
                     if (!_isIgnoreFile(entry, options)) {
@@ -83,7 +81,7 @@ function* DirGen(options) {
                         dirsToScan.push(entryFullPath);
                     }
                 }
-            });
+            }
         }
     }
 }
