@@ -13,9 +13,11 @@ function* DirGen(options) {
         if (!options) {
             return false;
         }
+        
+        const basename = path.basename(dir);
+        
         if (options.ignoreDotDir === true) {
             // Use path.basename for proper cross-platform dot directory detection
-            const basename = path.basename(dir);
             if (basename.startsWith('.')) {
                 return true;
             }
@@ -23,7 +25,6 @@ function* DirGen(options) {
         // Use Array.some() for early exit optimization
         // Check if directory path ends with any of the excluded folder patterns
         if (options.excludeFolders && options.excludeFolders.length > 0) {
-            const basename = path.basename(dir);
             return options.excludeFolders.some(excludeFolder => basename === excludeFolder || dir.endsWith(path.sep + excludeFolder));
         }
 
