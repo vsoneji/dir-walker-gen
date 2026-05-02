@@ -38,7 +38,7 @@ Copy this section for the next release and fill in only relevant items.
 - Added security policy at SECURITY.md.
 - Added code ownership rules at .github/CODEOWNERS.
 - Added CI workflow for pull requests and pushes.
-- Added CodeQL workflow for static analysis and scheduled scans.
+- Enabled CodeQL scanning via GitHub Default Setup.
 - Added dependency review workflow for pull requests.
 - Added weekly fresh-dependencies compatibility workflow.
 - Added npm audit workflow for push, pull request, and scheduled checks.
