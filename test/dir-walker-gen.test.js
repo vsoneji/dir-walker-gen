@@ -180,7 +180,7 @@ describe('Issue #1 - error handling', () => {
         ];
 
         const options = {
-            folders: [simpleFolder, 'A foldr that does not exist']
+            folders: [simpleFolder, 'A folder that does not exist']
         };
 
         for (let file of DirGen(options)) {
@@ -188,7 +188,7 @@ describe('Issue #1 - error handling', () => {
         }
         assert.deepStrictEqual(files, expected);
     });
-    it('will not a console if a folder does not exist in silent mode', () => {
+    it('will not log to console if a folder does not exist in silent mode', () => {
         const simpleFolder = path.join(__dirname, "test_simple");
 
         const files = [];
@@ -201,7 +201,7 @@ describe('Issue #1 - error handling', () => {
         ];
 
         const options = {
-            folders: [simpleFolder, 'A foldr that does not exist'],
+            folders: [simpleFolder, 'A folder that does not exist'],
             silent: true
         };
 

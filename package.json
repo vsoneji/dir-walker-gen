@@ -1,7 +1,7 @@
 {
     "name": "dir-walker-gen",
     "version": "2.0.0",
-    "description": "A javascript generator pattern for directory listing",
+    "description": "A JavaScript generator pattern for directory listing",
     "main": "src/dir-walker-gen.js",
     "files": [
         "src/"
@@ -18,8 +18,8 @@
         "test:ci": "npm test",
         "audit": "npm audit --audit-level=moderate",
         "audit:fix": "npm audit fix",
-        "publish": "npm publish --access=public",
-        "unpublish": "npm -f unpublish"
+        "publish:public": "npm publish --access=public",
+        "unpublish": "npm --force unpublish"
     },
     "repository": {
         "type": "git",
