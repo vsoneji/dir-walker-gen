@@ -12,6 +12,10 @@ The async nature of the function, it `yield`s to the calling routine allowing it
 $ npm install dir-walker-gen
 ```
 
+## Release Notes
+
+See CHANGELOG.md for upcoming 2.x release notes and migration-impacting changes.
+
 ## Basic Usage
 ```javascript
 const DirGen = require('dir-walker-gen');
