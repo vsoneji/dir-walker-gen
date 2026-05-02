@@ -47,11 +47,9 @@ Copy this section for the next release and fill in only relevant items.
 ### Changed
 - Dependabot configuration now updates npm dependencies and GitHub Actions weekly with labels and grouping.
 - Package metadata now limits published files to src and adds scripts for CI and audit tasks.
+- Test framework migrated from Mocha/Should to Node's built-in node:test runner with node:assert/strict.
 
 ### Security
-- Added overrides for vulnerable transitive dependencies to resolve current audit findings:
-  - diff to ^8.0.3
-  - serialize-javascript to ^7.0.5
 - npm audit currently reports zero vulnerabilities at moderate threshold.
 
 ## [1.0.1] - 2024-08-31

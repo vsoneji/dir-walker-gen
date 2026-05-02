@@ -1,7 +1,6 @@
 .gitignore
 .npmignore
 .tags
-.travis.yml
 lib-cov/
 node_modules/
 npm-debug.log

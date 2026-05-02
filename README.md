@@ -1,4 +1,4 @@
-# dir-walker-gen [![Build Status](https://api.travis-ci.com/vsoneji/dir-walker-gen.svg?branch=master)](http://travis-ci.org/daaku/nodejs-walker)
+# dir-walker-gen [![CI](https://github.com/vsoneji/dir-walker-gen/actions/workflows/ci.yml/badge.svg)](https://github.com/vsoneji/dir-walker-gen/actions/workflows/ci.yml)
 
 JavaScript generator pattern for efficient directory listing.
 
@@ -12,9 +12,29 @@ The async nature of the function, it `yield`s to the calling routine allowing it
 $ npm install dir-walker-gen
 ```
 
+## Requirements
+
+- Node.js 22 or newer
+
 ## Release Notes
 
-See CHANGELOG.md for upcoming 2.x release notes and migration-impacting changes.
+See [CHANGELOG.md](CHANGELOG.md) for upcoming 2.x release notes and migration-impacting changes.
+
+## Development
+
+### Run Tests
+
+This project uses Node's built-in test runner.
+
+```shell
+$ npm test
+```
+
+### Run Security Audit
+
+```shell
+$ npm run audit
+```
 
 ## Basic Usage
 ```javascript
