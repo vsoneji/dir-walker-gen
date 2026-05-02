@@ -1,0 +1,58 @@
+name: Dependency Maintenance
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: dependency-maintenance
+  cancel-in-progress: false
+
+jobs:
+  maintenance:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Apply non-breaking maintenance
+        run: |
+          npm audit fix --package-lock-only || true
+          npm dedupe
+
+      - name: Validate with tests
+        run: npm test
+
+      - name: Validate dependency security baseline
+        run: npm run audit
+
+      - name: Create pull request for maintenance changes
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/dependency-maintenance
+          commit-message: "chore: dependency maintenance"
+          title: "chore: weekly dependency maintenance"
+          body: |
+            Automated weekly dependency maintenance update.
+
+            Changes may include:
+            - lockfile vulnerability remediations
+            - dependency graph deduplication
+          labels: |
+            dependencies
+            maintenance

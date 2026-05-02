@@ -1,5 +1,6 @@
 const DirGen = require("../src/dir-walker-gen");
-const should = require("should");
+const assert = require("node:assert/strict");
+const { describe, it } = require("node:test");
 const path = require("path");
 
 describe("Simple Folder List", () => {
@@ -22,7 +23,7 @@ describe("Simple Folder List", () => {
         for (let file of DirGen(options)) {
             files.push(file);
         }
-        files.should.deepEqual(expected);
+        assert.deepStrictEqual(files, expected);
     });
 
     it("will list contents of a folder with excluded extensions", () => {
@@ -41,7 +42,7 @@ describe("Simple Folder List", () => {
         for (let file of DirGen(options)) {
             files.push(file);
         }
-        files.should.deepEqual(expected);
+        assert.deepStrictEqual(files, expected);
     });
 
     it("will list contents of a folder with included extensions", () => {
@@ -60,7 +61,7 @@ describe("Simple Folder List", () => {
         for (let file of DirGen(options)) {
             files.push(file);
         }
-        files.should.deepEqual(expected);
+        assert.deepStrictEqual(files, expected);
     });
 });
 
@@ -87,7 +88,7 @@ describe("Multi-Level Folder Tree", () => {
         for (let file of DirGen(options)) {
             files.push(file);
         }
-        files.should.deepEqual(expected);
+        assert.deepStrictEqual(files, expected);
     });
 
     it("will list contents of a folder and sub-folders with excluded folders", () => {
@@ -107,7 +108,7 @@ describe("Multi-Level Folder Tree", () => {
         for (let file of DirGen(options)) {
             files.push(file);
         }
-        files.should.deepEqual(expected);
+        assert.deepStrictEqual(files, expected);
     });
 });
 
@@ -138,7 +139,7 @@ describe("Multiple Start Folders", () => {
         for (let file of DirGen(options)) {
             files.push(file);
         }
-        files.should.deepEqual(expected);
+        assert.deepStrictEqual(files, expected);
     });
 
     it("will list contents of a folder and sub-folders with excluded folders", () => {
@@ -161,7 +162,7 @@ describe("Multiple Start Folders", () => {
         for (let file of DirGen(options)) {
             files.push(file);
         }
-        files.should.deepEqual(expected);
+        assert.deepStrictEqual(files, expected);
     });
 });
 
@@ -179,15 +180,15 @@ describe('Issue #1 - error handling', () => {
         ];
 
         const options = {
-            folders: [simpleFolder, 'A foldr that does not exist']
+            folders: [simpleFolder, 'A folder that does not exist']
         };
 
         for (let file of DirGen(options)) {
             files.push(file);
         }
-        files.should.deepEqual(expected);
+        assert.deepStrictEqual(files, expected);
     });
-    it('will not a console if a folder does not exist in silent mode', () => {
+    it('will not log to console if a folder does not exist in silent mode', () => {
         const simpleFolder = path.join(__dirname, "test_simple");
 
         const files = [];
@@ -200,13 +201,13 @@ describe('Issue #1 - error handling', () => {
         ];
 
         const options = {
-            folders: [simpleFolder, 'A foldr that does not exist'],
+            folders: [simpleFolder, 'A folder that does not exist'],
             silent: true
         };
 
         for (let file of DirGen(options)) {
             files.push(file);
         }
-        files.should.deepEqual(expected);
+        assert.deepStrictEqual(files, expected);
     });
 });

@@ -1,16 +1,25 @@
 {
     "name": "dir-walker-gen",
-    "version": "1.0.1",
-    "description": "A javascript generator pattern for directlry listing",
+    "version": "2.0.0",
+    "description": "A JavaScript generator pattern for directory listing",
     "main": "src/dir-walker-gen.js",
+    "files": [
+        "src/"
+    ],
+    "engines": {
+        "node": ">=22"
+    },
     "directories": {
         "test": "test",
         "lib": "src"
     },
     "scripts": {
-        "test": "mocha test/**/*.test.js",
-        "publish": "npm publish --access=public",
-        "unpublish": "npm -f unpublish"
+        "test": "node --test",
+        "test:ci": "npm test",
+        "audit": "npm audit --audit-level=moderate",
+        "audit:fix": "npm audit fix",
+        "publish:public": "npm publish --access=public",
+        "unpublish": "npm --force unpublish"
     },
     "repository": {
         "type": "git",
@@ -28,9 +37,5 @@
     "bugs": {
         "url": "https://github.com/vsoneji/dir-walker-gen/issues"
     },
-    "homepage": "https://github.com/vsoneji/dir-walker-gen#readme",
-    "devDependencies": {
-        "mocha": "^11.1.0",
-        "should": "^13.2.3"
-    }
+    "homepage": "https://github.com/vsoneji/dir-walker-gen#readme"
 }
